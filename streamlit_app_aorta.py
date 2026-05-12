@@ -4,42 +4,44 @@ import numpy as np
 # 1. Page Configuration
 st.set_page_config(page_title="AAORTA-1 Calculator", layout="centered")
 
-# 2. Page Configuration & Styling (FORCED VISIBILITY)
 st.markdown(
     """
     <style>
-    /* Force main background to white and create a distinct look for expanders */
+    /* Force main background to white */
     .stApp {
         background-color: white;
     }
     
-    /* Target ALL text—including headers, paragraphs, labels, spans, AND list items—to be distinct black */
-    h1, h2, h3, h4, h5, h6, p, li, span, label, .stCheckbox > label {
+    /* Force ALL text to pure black, including headers and list items */
+    h1, h2, h3, h4, h5, h6, p, li, span, label {
         color: #000000 !important;
         -webkit-text-fill-color: #000000 !important;
         opacity: 1 !important;
     }
-    
-    /* Target and style the expander header specifically so it is clear and doesn't invert */
+
+    /* Target the Expander Header specifically */
     .streamlit-expanderHeader {
         color: #000000 !important;
         background-color: #f0f2f6 !important; /* Light gray background for contrast */
         border-radius: 5px;
-        opacity: 1 !important;
     }
-    
-    /* Ensure metric values remain the blue accent color */
+
+    /* Fix for the expander icon (arrow) color */
+    .streamlit-expanderHeader svg {
+        fill: #000000 !important;
+    }
+
+    /* Target the text inside the expander content specifically */
+    [data-testid="stExpander"] div {
+        color: #000000 !important;
+    }
+
+    /* Keep the metric values (scores) in the blue accent color */
     [data-testid="stMetricValue"] {
         color: #1c83e1 !important;
     }
-    
-    /* A distinct look for expanders that never "blacks out" */
-    .stExpander, [data-testid="stExpander"] {
-        background-color: #f8f9fb !important;
-        border: 1px solid #d3d3d3 !important;
-    }
-    
-    /* Ensure checkbox border is dark for visibility */
+
+    /* Ensure checkboxes are visible */
     .stCheckbox > label > div[role="checkbox"] {
         border-color: #000000 !important;
     }
@@ -47,7 +49,6 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
 # --- Title Section ---
 st.title("AAORTA-1 Risk Calculator")
 st.write("**Aortic Arch Operation Risk Tool for Assessment:** Preoperative 90-Day Mortality Prediction.")
