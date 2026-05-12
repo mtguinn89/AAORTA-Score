@@ -1,25 +1,17 @@
 import streamlit as st
+import numpy as np
 
 # 1. Page Configuration
 st.set_page_config(page_title="AAORTA-1 Calculator", layout="centered")
 
-# 2. Force Light Mode / White Background via CSS
+# 2. CSS for Styling
 st.markdown(
     """
     <style>
-    .stApp {
-        background-color: white;
-    }
-    h1, h2, h3, p, span, label, .stCheckbox {
-        color: #262730 !important;
-    }
-    [data-testid="stMetricValue"] {
-        color: #1c83e1 !important;
-    }
-    /* Style checkboxes to be clearly visible on white */
-    .stCheckbox > label > div {
-        border: 1px solid #d3d3d3;
-    }
+    .stApp { background-color: white; }
+    h1, h2, h3, p, span, label, .stCheckbox { color: #262730 !important; }
+    [data-testid="stMetricValue"] { color: #1c83e1 !important; }
+    .stCheckbox > label > div { border: 1px solid #d3d3d3; }
     </style>
     """,
     unsafe_allow_html=True
@@ -29,8 +21,7 @@ st.markdown(
 st.title("AAORTA-1 Risk Calculator")
 st.write("**Aortic Arch Operation Risk Tool for Assessment:** Preoperative 90-Day Mortality Prediction.")
 
-# --- Scoring Logic ---
-# HTAD: -1 | Prior CABG: 2 | Kidney Disease: 1 | Pulmonary Disease: 1 | Never Smoked: -1
+# --- Scoring Logic (Synced with R script calculate_points) ---
 points_map = {
     "nv_HTAD": -1,
     "nv_PriorCABG": 2,
@@ -41,23 +32,23 @@ points_map = {
 
 # --- Input Interface ---
 st.subheader("Preoperative Patient Parameters")
-st.info("Select variables present prior to the index procedure.")
+st.info("Select clinical variables present prior to the index procedure.")
 
 col1, col2 = st.columns(2)
 
 with col1:
     htad = st.checkbox("Heritable Thoracic Aortic Disease (HTAD)", 
-                       help="e.g., Marfan, Loeys-Dietz, BAV with known genetic variant.")
+                       help="Marfan, Loeys-Dietz, BAV with known genetic variant, or other heritable aortopathy.")
     cabg = st.checkbox("Prior CABG", 
-                       help="Previous coronary artery bypass grafting.")
+                       help="History of coronary artery bypass grafting.")
     kidney = st.checkbox("Kidney Disease", 
-                         help="Documented renal insufficiency or CKD.")
+                         help="Documented preoperative renal insufficiency or CKD.")
 
 with col2:
     pulmonary = st.checkbox("Pulmonary Disease", 
-                            help="COPD, emphysema, or severe restrictive lung disease.")
+                            help="Documented COPD, emphysema, or restrictive lung disease (STS Definition).")
     nosmoke = st.checkbox("Never Used Tobacco", 
-                          help="Patient has no history of tobacco use.")
+                          help="Patient has no clinical history of tobacco use.")
 
 # --- Calculation ---
 score = 0
@@ -67,34 +58,49 @@ if kidney: score += points_map["nv_KidneyDisease"]
 if pulmonary: score += points_map["nv_PulmonaryDisease"]
 if nosmoke: score += points_map["nv_NoSmoke"]
 
+# --- REGRESSION-BASED PROBABILITY ---
+# REPLACE THESE WITH VALUES FROM YOUR R summary(my_mod) output:
+intercept = -2.88 
+beta_score = 1.34 
+
+# Logit calculation and Logistic Transformation
+logit = intercept + (beta_score * score)
+probability = (1 / (1 + np.exp(-logit))) * 100
+
 st.divider()
 
 # --- Results Display ---
-st.metric(label="Calculated AAORTA-1 Score", value=f"{score} Points")
+c1, c2 = st.columns(2)
+with c1:
+    st.metric(label="Calculated AAORTA-1 Score", value=f"{score} Points")
+with c2:
+    st.metric(label="Predicted 90-Day Mortality", value=f"{round(probability, 1)}%")
 
-# Threshold Logic based on validated brackets: Low (<=0), Medium (1), High (>1)
+# --- Risk Stratification & Clinical Guidance ---
 if score <= 0:
     st.success("✅ **RISK GROUP: LOW RISK**")
-    st.write("**Observed 90-Day Mortality:** ~5.3%")
-    st.info("**Clinical Guidance:** Standard postoperative surveillance and routine ICU care.")
+    st.write(f"The calculated risk for this patient is **{round(probability, 1)}%**.")
+    st.info("**Guidance:** Standard postoperative surveillance and routine ICU care.")
 elif score == 1:
     st.warning("⚠️ **RISK GROUP: MEDIUM RISK**")
-    st.write("**Observed 90-Day Mortality:** ~26.5%")
-    st.info("**Clinical Guidance:** Consider optimized ICU monitoring and early multidisciplinary involvement.")
+    st.write(f"The calculated risk for this patient is **{round(probability, 1)}%**.")
+    st.info("**Guidance:** Consider optimized ICU monitoring and early multidisciplinary involvement.")
 else:
     st.error("🚨 **RISK GROUP: HIGH RISK**")
-    st.write("**Observed 90-Day Mortality:** ~33.3%")
-    st.warning("**Clinical Guidance:** High risk for early mortality. Evaluate for preoperative optimization or alternative surgical strategies.")
+    st.write(f"The calculated risk for this patient is **{round(probability, 1)}%**.")
+    st.warning("**Guidance:** Significant risk for early mortality. Evaluate for preoperative optimization or alternative surgical strategies.")
 
 # --- Scientific Context ---
 with st.expander("Model Performance & Definitions"):
     st.write(f"""
-    **Scientific Validation:**
-    - **Calibration:** Excellent agreement between predicted and observed mortality (R² = 0.83).
-    - **Brier Score:** 0.1049 (Indicates high predictive accuracy).
+    **Model Calibration:**
+    The AAORTA-1 score utilizes a logistic regression model ($R^2 = 0.83$, Brier Score = 0.1049). 
+    Unlike simple integer scoring, this calculator provides a graded probability based on the cumulative 
+    weight of preoperative comorbidities.
     
     **Definitions:**
     - **HTAD:** Heritable Thoracic Aortic Disease.
+    - **Pulmonary Disease:** Any documented COPD or restrictive disease (consistent with STS data entry).
     - **90-Day Mortality:** All-cause mortality within 90 days of the index procedure.
     """)
 
