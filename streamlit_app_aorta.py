@@ -4,36 +4,45 @@ import numpy as np
 # 1. Page Configuration
 st.set_page_config(page_title="AAORTA-1 Calculator", layout="centered")
 
-# 2. CSS for Styling
-# 2. Page Configuration & Styling (FIXED: Darker Text for Visibility)
-# This CSS directly targets and forces a dark color (#262730) on all text
-# elements—including main text, headers (h1-h6), paragraphs, labels, and spans.
+# 2. Page Configuration & Styling (FORCED HIGH CONTRAST)
 st.markdown(
     """
     <style>
+    /* Force main background to white */
     .stApp {
         background-color: white;
     }
     
-    /* Target and style all text to be dark and readable */
-    h1, h2, h3, h4, h5, h6, p, span, label, .stCheckbox > label {
-        color: #262730 !important;
+    /* Force all standard text and labels to pure black */
+    h1, h2, h3, h4, h5, h6, p, span, label, .stCheckbox {
+        color: #000000 !important;
     }
-    
-    /* Keep the metric values (your score) in the blue accent color */
+
+    /* Target the Expander Header Text */
+    .streamlit-expanderHeader {
+        color: #000000 !important;
+        background-color: white !important;
+    }
+
+    /* Target the text inside the expander */
+    .streamlit-expanderContent p, .streamlit-expanderContent li {
+        color: #000000 !important;
+    }
+
+    /* Prevent the expander from turning black/dark when active/clicked */
+    .stExpander, [data-testid="stExpander"] {
+        background-color: white !important;
+        border: 1px solid #d3d3d3 !important;
+    }
+
+    /* Ensure metric values remain the blue accent color */
     [data-testid="stMetricValue"] {
         color: #1c83e1 !important;
     }
     
-    /* A separate border and accent color for the expanded scientifically context section */
-    .stExpander > label {
-        color: #1c83e1 !important;
-        border-bottom: 2px solid #1c83e1;
-    }
-    
-    /* Ensure checkmark is dark on white background for visibility */
-    .stCheckbox > label > div[role="checkbox"] {
-        border-color: #262730;
+    /* Checkbox border visibility */
+    .stCheckbox > label > div {
+        border: 1px solid #000000 !important;
     }
     </style>
     """,
