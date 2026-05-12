@@ -5,53 +5,59 @@ import numpy as np
 st.set_page_config(page_title="AAORTA-1 Calculator", layout="centered")
 
 
-# 2. Page Configuration & Styling (CONSISTENT BLUE THEME)
+# 2. Page Configuration & Styling (TOTAL STATE LOCK)
 st.markdown(
     """
     <style>
-    /* Force main background to white */
     .stApp {
         background-color: white;
     }
-    
-    /* Force ALL text to pure black, including headers and list items */
+
+    /* 1. Force all text and list items to absolute black */
     h1, h2, h3, h4, h5, h6, p, li, span, label {
         color: #000000 !important;
         -webkit-text-fill-color: #000000 !important;
         opacity: 1 !important;
     }
 
-    /* Target the Expander Header specifically */
-    .streamlit-expanderHeader {
+    /* 2. THE NUCLEAR OPTION: Lock the background for the entire expander tree */
+    /* This targets the outer box, the header, and the internal hover container */
+    [data-testid="stExpander"], 
+    [data-testid="stExpanderDetails"],
+    .streamlit-expanderHeader,
+    .streamlit-expanderHeader > div,
+    .streamlit-expanderHeader:hover,
+    .streamlit-expanderHeader:active {
+        background-color: #e7f3fe !important; /* Persistent Light Blue */
         color: #000000 !important;
-        background-color: #f0f2f6 !important; /* Light gray background for contrast */
-        border-radius: 5px;
+        border-color: #b6d4fe !important;
     }
 
-    /* Fix for the expander icon (arrow) color */
+    /* 3. Disable the Streamlit "Transition" that causes the flash/fade to black */
+    .streamlit-expanderHeader {
+        transition: none !important;
+        border: 1px solid #b6d4fe !important;
+        border-radius: 8px !important;
+    }
+
+    /* 4. Bold the Header Text */
+    .streamlit-expanderHeader p {
+        font-weight: bold !important;
+    }
+
+    /* 5. Force the Arrow to stay black */
     .streamlit-expanderHeader svg {
         fill: #000000 !important;
     }
 
-    /* Target the text inside the expander content specifically */
-    [data-testid="stExpander"] div {
-        color: #000000 !important;
-    }
-
-    /* Keep the metric values (scores) in the blue accent color */
+    /* 6. Keep Metrics Blue */
     [data-testid="stMetricValue"] {
         color: #1c83e1 !important;
-    }
-
-    /* Ensure checkboxes are visible */
-    .stCheckbox > label > div[role="checkbox"] {
-        border-color: #000000 !important;
     }
     </style>
     """,
     unsafe_allow_html=True
 )
-
 
 # --- Title Section ---
 st.title("AAORTA-1 Risk Calculator")
