@@ -4,44 +4,46 @@ import numpy as np
 # 1. Page Configuration
 st.set_page_config(page_title="AAORTA-1 Calculator", layout="centered")
 
-
-# 2. Page Configuration & Styling (FORCED PERSISTENT COLORS)
 st.markdown(
     """
     <style>
+    /* Force main background to white */
     .stApp {
         background-color: white;
     }
-
-    /* Force all text inside the expander to be pure black */
-    .stExpander p, .stExpander li, .stExpander span, .stExpander label {
+    
+    /* Force ALL text to pure black, including headers and list items */
+    h1, h2, h3, h4, h5, h6, p, li, span, label {
         color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important;
         opacity: 1 !important;
     }
 
-    /* THE FIX: Force the box to be light gray at all times */
-    /* Target the container and the header */
-    [data-testid="stExpander"], .streamlit-expanderHeader {
-        background-color: #F0F2F6 !important; /* Light Gray */
-        border: 1px solid #d3d3d3 !important;
-        border-radius: 8px !important;
-    }
-
-    /* Force the header text to be black specifically */
-    .streamlit-expanderHeader p {
+    /* Target the Expander Header specifically */
+    .streamlit-expanderHeader {
         color: #000000 !important;
-        font-weight: bold !important;
+        background-color: #f0f2f6 !important; /* Light gray background for contrast */
+        border-radius: 5px;
     }
 
-    /* Prevent the box from turning black/dark when clicked or hovered */
-    [data-testid="stExpander"]:hover, [data-testid="stExpander"]:focus, [data-testid="stExpander"]:active {
-        background-color: #F0F2F6 !important;
-        border-color: #1c83e1 !important; /* Slight blue border on click for feedback */
+    /* Fix for the expander icon (arrow) color */
+    .streamlit-expanderHeader svg {
+        fill: #000000 !important;
     }
 
-    /* Keep the metrics blue */
+    /* Target the text inside the expander content specifically */
+    [data-testid="stExpander"] div {
+        color: #000000 !important;
+    }
+
+    /* Keep the metric values (scores) in the blue accent color */
     [data-testid="stMetricValue"] {
         color: #1c83e1 !important;
+    }
+
+    /* Ensure checkboxes are visible */
+    .stCheckbox > label > div[role="checkbox"] {
+        border-color: #000000 !important;
     }
     </style>
     """,
