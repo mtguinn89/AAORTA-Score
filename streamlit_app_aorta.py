@@ -122,19 +122,6 @@ else:
     st.error("🚨 **RISK GROUP: HIGH RISK**")
     st.warning("**Guidance:** Significant risk for early mortality. Evaluate for preoperative optimization or alternative surgical strategies.")
 
-# --- Scientific Context ---
-with st.expander("Model Performance & Definitions"):
-    st.write(f"""
-    **Model Calibration:**
-    The AAORTA-1 score utilizes a logistic regression model.
-    
-    **Definitions:**
-    - **HTAD:** Heritable Thoracic Aortic Disease.
-    - **Pulmonary Disease:** Includes asthma, chronic obstructive pulmonary disease, obstructive sleep apnea, 
-    prior lung transplant, tuberculosis, pneumothorax, and other documented chronic pulmonary conditions.
-    - **90-Day Mortality:** All-cause mortality within 90 days of the index procedure.
-    """)
-
 # --- REPLACEMENT FOR THE EXPANDER SECTION ---
 st.write("") # Spacer
 
