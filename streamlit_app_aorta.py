@@ -92,10 +92,11 @@ if kidney: score += points_map["nv_KidneyDisease"]
 if pulmonary: score += points_map["nv_PulmonaryDisease"]
 if nosmoke: score += points_map["nv_NoSmoke"]
 
+
 # --- REGRESSION-BASED PROBABILITY ---
-# REPLACE THESE WITH VALUES FROM YOUR R summary(my_mod) output:
-intercept = -2.88 
-beta_score = 1.34 
+# Exact values from institutional model: summary(my_mod)
+intercept = -2.062013 
+beta_score = 0.5391404 
 
 # Logit calculation and Logistic Transformation
 logit = intercept + (beta_score * score)
