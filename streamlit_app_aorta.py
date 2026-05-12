@@ -9,46 +9,41 @@ st.set_page_config(page_title="AAORTA-1 Calculator", layout="centered")
 st.markdown(
     """
     <style>
+    /* Force main background to white */
     .stApp {
         background-color: white;
     }
-
-    /* Force all text to be pure black for maximum contrast */
+    
+    /* Force ALL text to pure black, including headers and list items */
     h1, h2, h3, h4, h5, h6, p, li, span, label {
         color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important;
         opacity: 1 !important;
     }
 
-    /* THE FIX: Blue box style for the Expander (to match the info box) */
-    [data-testid="stExpander"], .streamlit-expanderHeader {
-        background-color: #e7f3fe !important; /* Light Blue */
-        border: 1px solid #b6d4fe !important; /* Muted Blue Border */
-        border-radius: 8px !important;
-    }
-
-    /* Ensure header text is black and bold */
-    .streamlit-expanderHeader p {
+    /* Target the Expander Header specifically */
+    .streamlit-expanderHeader {
         color: #000000 !important;
-        font-weight: bold !important;
+        background-color: #f0f2f6 !important; /* Light gray background for contrast */
+        border-radius: 5px;
     }
 
-    /* Prevent color inversion or black-out on hover/click */
-    [data-testid="stExpander"]:hover, [data-testid="stExpander"]:active {
-        background-color: #e7f3fe !important;
-        border-color: #1c83e1 !important;
-    }
-
-    /* Icon (arrow) color fix */
+    /* Fix for the expander icon (arrow) color */
     .streamlit-expanderHeader svg {
         fill: #000000 !important;
     }
 
-    /* Metric Score Styling */
+    /* Target the text inside the expander content specifically */
+    [data-testid="stExpander"] div {
+        color: #000000 !important;
+    }
+
+    /* Keep the metric values (scores) in the blue accent color */
     [data-testid="stMetricValue"] {
         color: #1c83e1 !important;
     }
 
-    /* Checkbox Border */
+    /* Ensure checkboxes are visible */
     .stCheckbox > label > div[role="checkbox"] {
         border-color: #000000 !important;
     }
