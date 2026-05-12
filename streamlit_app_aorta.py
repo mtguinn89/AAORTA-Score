@@ -114,15 +114,12 @@ with c2:
 # --- Risk Stratification & Clinical Guidance ---
 if score <= 0:
     st.success("✅ **RISK GROUP: LOW RISK**")
-    st.write(f"The calculated risk for this patient is **{round(probability, 1)}%**.")
     st.info("**Guidance:** Standard postoperative surveillance and routine ICU care.")
 elif score == 1:
     st.warning("⚠️ **RISK GROUP: MEDIUM RISK**")
-    st.write(f"The calculated risk for this patient is **{round(probability, 1)}%**.")
     st.info("**Guidance:** Consider optimized ICU monitoring and early multidisciplinary involvement.")
 else:
     st.error("🚨 **RISK GROUP: HIGH RISK**")
-    st.write(f"The calculated risk for this patient is **{round(probability, 1)}%**.")
     st.warning("**Guidance:** Significant risk for early mortality. Evaluate for preoperative optimization or alternative surgical strategies.")
 
 # --- Scientific Context ---
