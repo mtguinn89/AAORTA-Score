@@ -4,7 +4,7 @@ import numpy as np
 # 1. Page Configuration
 st.set_page_config(page_title="AAORTA-1 Calculator", layout="centered")
 
-# 2. Page Configuration & Styling (FORCED HIGH CONTRAST)
+# 2. Page Configuration & Styling (FORCED BLACK TEXT)
 st.markdown(
     """
     <style>
@@ -13,36 +13,38 @@ st.markdown(
         background-color: white;
     }
     
-    /* Force all standard text and labels to pure black */
-    h1, h2, h3, h4, h5, h6, p, span, label, .stCheckbox {
+    /* Force ALL text to pure black, including headers and list items */
+    h1, h2, h3, h4, h5, h6, p, li, span, label {
         color: #000000 !important;
+        -webkit-text-fill-color: #000000 !important;
+        opacity: 1 !important;
     }
 
-    /* Target the Expander Header Text */
+    /* Target the Expander Header specifically */
     .streamlit-expanderHeader {
         color: #000000 !important;
-        background-color: white !important;
+        background-color: #f0f2f6 !important; /* Light gray background for contrast */
+        border-radius: 5px;
     }
 
-    /* Target the text inside the expander */
-    .streamlit-expanderContent p, .streamlit-expanderContent li {
+    /* Fix for the expander icon (arrow) color */
+    .streamlit-expanderHeader svg {
+        fill: #000000 !important;
+    }
+
+    /* Target the text inside the expander content specifically */
+    [data-testid="stExpander"] div {
         color: #000000 !important;
     }
 
-    /* Prevent the expander from turning black/dark when active/clicked */
-    .stExpander, [data-testid="stExpander"] {
-        background-color: white !important;
-        border: 1px solid #d3d3d3 !important;
-    }
-
-    /* Ensure metric values remain the blue accent color */
+    /* Keep the metric values (scores) in the blue accent color */
     [data-testid="stMetricValue"] {
         color: #1c83e1 !important;
     }
-    
-    /* Checkbox border visibility */
-    .stCheckbox > label > div {
-        border: 1px solid #000000 !important;
+
+    /* Ensure checkboxes are visible */
+    .stCheckbox > label > div[role="checkbox"] {
+        border-color: #000000 !important;
     }
     </style>
     """,
