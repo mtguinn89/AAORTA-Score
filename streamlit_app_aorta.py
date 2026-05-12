@@ -4,55 +4,47 @@ import numpy as np
 # 1. Page Configuration
 st.set_page_config(page_title="AAORTA-1 Calculator", layout="centered")
 
-
-# 2. Page Configuration & Styling (TOTAL STATE LOCK)
+# 2. Page Configuration & Styling (CONSISTENT BLUE THEME)
 st.markdown(
     """
     <style>
+    /* Force main background to white */
     .stApp {
         background-color: white;
     }
-
-    /* 1. Force all text and list items to absolute black */
+    
+    /* Force ALL text to pure black, including headers and list items */
     h1, h2, h3, h4, h5, h6, p, li, span, label {
         color: #000000 !important;
         -webkit-text-fill-color: #000000 !important;
         opacity: 1 !important;
     }
 
-    /* 2. THE NUCLEAR OPTION: Lock the background for the entire expander tree */
-    /* This targets the outer box, the header, and the internal hover container */
-    [data-testid="stExpander"], 
-    [data-testid="stExpanderDetails"],
-    .streamlit-expanderHeader,
-    .streamlit-expanderHeader > div,
-    .streamlit-expanderHeader:hover,
-    .streamlit-expanderHeader:active {
-        background-color: #e7f3fe !important; /* Persistent Light Blue */
-        color: #000000 !important;
-        border-color: #b6d4fe !important;
-    }
-
-    /* 3. Disable the Streamlit "Transition" that causes the flash/fade to black */
+    /* Target the Expander Header specifically */
     .streamlit-expanderHeader {
-        transition: none !important;
-        border: 1px solid #b6d4fe !important;
-        border-radius: 8px !important;
+        color: #000000 !important;
+        background-color: #f0f2f6 !important; /* Light gray background for contrast */
+        border-radius: 5px;
     }
 
-    /* 4. Bold the Header Text */
-    .streamlit-expanderHeader p {
-        font-weight: bold !important;
-    }
-
-    /* 5. Force the Arrow to stay black */
+    /* Fix for the expander icon (arrow) color */
     .streamlit-expanderHeader svg {
         fill: #000000 !important;
     }
 
-    /* 6. Keep Metrics Blue */
+    /* Target the text inside the expander content specifically */
+    [data-testid="stExpander"] div {
+        color: #000000 !important;
+    }
+
+    /* Keep the metric values (scores) in the blue accent color */
     [data-testid="stMetricValue"] {
         color: #1c83e1 !important;
+    }
+
+    /* Ensure checkboxes are visible */
+    .stCheckbox > label > div[role="checkbox"] {
+        border-color: #000000 !important;
     }
     </style>
     """,
