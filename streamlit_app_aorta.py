@@ -135,5 +135,38 @@ with st.expander("Model Performance & Definitions"):
     - **90-Day Mortality:** All-cause mortality within 90 days of the index procedure.
     """)
 
-st.write("---")
+# --- REPLACEMENT FOR THE EXPANDER SECTION ---
+st.write("") # Spacer
+
+# Create a custom blue box for the "Definitions"
+with st.container():
+    # This creates a blue 'box' using markdown
+    st.markdown(
+        """
+        <div style="background-color: #e7f3fe; border: 1px solid #b6d4fe; padding: 15px; border-radius: 8px;">
+            <p style="margin: 0; font-weight: bold; color: #000000;">Model Performance & Definitions</p>
+        </div>
+        """, 
+        unsafe_allow_html=True
+    )
+    
+    # Use a checkbox to toggle the information visibility
+    show_details = st.checkbox("Show Model Details & Clinical Definitions", value=False)
+
+    if show_details:
+        st.markdown(
+            """
+            <div style="background-color: #ffffff; border: 1px solid #e7f3fe; padding: 15px; border-radius: 0 0 8px 8px; margin-top: -5px;">
+                <p style="color: #000000; font-weight: bold;">Model Calibration:</p>
+                <p style="color: #000000;">The AAORTA-1 score utilizes a logistic regression model.</p>
+                <p style="color: #000000; font-weight: bold;">Definitions:</p>
+                <ul style="color: #000000;">
+                    <li><b>HTAD:</b> Heritable Thoracic Aortic Disease.</li>
+                    <li><b>Pulmonary Disease:</b> Includes asthma, COPD, obstructive sleep apnea, prior lung transplant, etc.</li>
+                    <li><b>90-Day Mortality:</b> All-cause mortality within 90 days of procedure.</li>
+                </ul>
+            </div>
+            """, 
+            unsafe_allow_html=True
+        )
 st.caption("© 2026 AAORTA Score Project. For research and educational purposes only.")
