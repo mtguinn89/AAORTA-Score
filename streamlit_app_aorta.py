@@ -129,9 +129,7 @@ else:
 with st.expander("Model Performance & Definitions"):
     st.write(f"""
     **Model Calibration:**
-    The AAORTA-1 score utilizes a logistic regression model ($R^2 = 0.83$, Brier Score = 0.1049). 
-    Unlike simple integer scoring, this calculator provides a graded probability based on the cumulative 
-    weight of preoperative comorbidities.
+    The AAORTA-1 score utilizes a logistic regression model.
     
     **Definitions:**
     - **HTAD:** Heritable Thoracic Aortic Disease.
