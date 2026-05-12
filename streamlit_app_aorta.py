@@ -135,7 +135,8 @@ with st.expander("Model Performance & Definitions"):
     
     **Definitions:**
     - **HTAD:** Heritable Thoracic Aortic Disease.
-    - **Pulmonary Disease:** Any documented COPD or restrictive disease (consistent with STS data entry).
+    - **Pulmonary Disease:** Included asthma, chronic obstructive pulmonary disease, obstructive sleep apnea, 
+    prior lung transplant, tuberculosis, pneumothorax, and other documented chronic pulmonary conditions.
     - **90-Day Mortality:** All-cause mortality within 90 days of the index procedure.
     """)
 
