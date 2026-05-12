@@ -5,13 +5,36 @@ import numpy as np
 st.set_page_config(page_title="AAORTA-1 Calculator", layout="centered")
 
 # 2. CSS for Styling
+# 2. Page Configuration & Styling (FIXED: Darker Text for Visibility)
+# This CSS directly targets and forces a dark color (#262730) on all text
+# elements—including main text, headers (h1-h6), paragraphs, labels, and spans.
 st.markdown(
     """
     <style>
-    .stApp { background-color: white; }
-    h1, h2, h3, p, span, label, .stCheckbox { color: #262730 !important; }
-    [data-testid="stMetricValue"] { color: #1c83e1 !important; }
-    .stCheckbox > label > div { border: 1px solid #d3d3d3; }
+    .stApp {
+        background-color: white;
+    }
+    
+    /* Target and style all text to be dark and readable */
+    h1, h2, h3, h4, h5, h6, p, span, label, .stCheckbox > label {
+        color: #262730 !important;
+    }
+    
+    /* Keep the metric values (your score) in the blue accent color */
+    [data-testid="stMetricValue"] {
+        color: #1c83e1 !important;
+    }
+    
+    /* A separate border and accent color for the expanded scientifically context section */
+    .stExpander > label {
+        color: #1c83e1 !important;
+        border-bottom: 2px solid #1c83e1;
+    }
+    
+    /* Ensure checkmark is dark on white background for visibility */
+    .stCheckbox > label > div[role="checkbox"] {
+        border-color: #262730;
+    }
     </style>
     """,
     unsafe_allow_html=True
